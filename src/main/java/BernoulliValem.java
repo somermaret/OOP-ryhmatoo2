@@ -53,20 +53,20 @@ public class BernoulliValem implements Arvutatav {
 
     //Väljastame kasutajale näite tema sisestuse põhjal:
     @Override
-    public void näide() {
+    public String näide() {
         setP(Math.random());
         setN((int) Math.round(3 + Math.random() * 12));
         setK((int) Math.round(Math.random() * n));
         double tõenäosus = kombinatsioonid(k, n) * Math.pow(p, k) * Math.pow((1 - p), (n - k));
 
-        System.out.println("Näide:\nKui toimub n=" + n + " katset, kus mingi sündmuse toimumise tõenäosus igal katsel " +
+        return "Näide:\nKui toimub n=" + n + " katset, kus mingi sündmuse toimumise tõenäosus igal katsel " +
                 "on p=" + Math.round(p * 100.0) / 100.0 + ", siis tõenäosus, et sündmus toimub täpselt k=" +
-                k + " katsel, on P=" + Math.round(tõenäosus * 100.0) / 100.0 + "." + "\n");
+                k + " katsel, on P=" + Math.round(tõenäosus * 100.0) / 100.0 + "." + "\n";
     }
 
     //Küsime kasutajalt vajalikud andmed ja väljastame soovitud tulemuse:
     @Override
-    public void arvuta() {
+    public String arvuta() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Sisesta p (vaadeldava sündmuse toimumise tõenäosus, mis on igal katsel sama)");
         setP(scan.nextDouble());
@@ -75,8 +75,8 @@ public class BernoulliValem implements Arvutatav {
         System.out.println("Sisesta k (see arv, mitmel korral sündmus toimub)");
         setK(scan.nextInt());
         double tõenäosus = kombinatsioonid(k, n) * Math.pow(p, k) * Math.pow((1 - p), (n - k));
-        System.out.println("Igal katsel tõenäosusega " + p + " toimuva sündmuse puhul tõenäosus, et " + n + "-st katsest" +
-                " toimub sündmus " + k + " katsel, on: " + Math.round(tõenäosus * 1000.0) / 1000.0 + "." + "\n");
+        return "Igal katsel tõenäosusega " + p + " toimuva sündmuse puhul tõenäosus, et " + n + "-st katsest" +
+                " toimub sündmus " + k + " katsel, on: " + Math.round(tõenäosus * 1000.0) / 1000.0 + "." + "\n";
     }
 
 }

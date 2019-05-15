@@ -51,7 +51,7 @@ public class Hüpergeomeetriline implements Arvutatav {
 
     //Väljastame kasutajale näite tema sisestuse põhjal:
     @Override
-    public void näide() {
+    public String näide() {
         setM((int) Math.round(2 + Math.random() * 3));
         int[] klassid = new int[m];
         int[] k = new int[m];
@@ -69,15 +69,16 @@ public class Hüpergeomeetriline implements Arvutatav {
         setVäikeN(kSumma);
         long nimetaja = kombinatsioonid(väikeN, suurN);
         double tõenäosus = (double) lugeja / (double) nimetaja;
-        System.out.println("Näide:\nKui " + suurN + " objekti on jagatud " + m + " klassi järgmiselt:\n" +
+
+        return "Näide:\nKui " + suurN + " objekti on jagatud " + m + " klassi järgmiselt:\n" +
                 Arrays.toString(klassid) + "," + "\n" +
                 "siis " + väikeN + " objekti valimisel on tõenäosus, et klassidest valitakse vastavalt\n"
-                + Arrays.toString(k) + "\nobjekti, P=" + Math.round(tõenäosus * 1000.0) / 1000.0 + "." + "\n");
+                + Arrays.toString(k) + "\nobjekti, P=" + Math.round(tõenäosus * 1000.0) / 1000.0 + "." + "\n";
     }
 
     //Küsime kasutajalt vajalikud andmed ja väljastame soovitud tulemuse:
     @Override
-    public void arvuta() {
+    public String arvuta() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Sisesta m (klasside koguarv)");
         setM(scan.nextInt());
@@ -99,9 +100,9 @@ public class Hüpergeomeetriline implements Arvutatav {
         setVäikeN(kSumma);
         long nimetaja = kombinatsioonid(väikeN, suurN);
         double tõenäosus = (double) lugeja / (double) nimetaja;
-        System.out.println("Tõenäosus, et " + suurN + "-st objektist, mis on jaotatud " + m + " klassi järgmiselt:\n"
+        return "Tõenäosus, et " + suurN + "-st objektist, mis on jaotatud " + m + " klassi järgmiselt:\n"
                 + Arrays.toString(klassid) + "\n" +
                 väikeN + " objekti valimisel saadakse klassidest vastavalt\n" + Arrays.toString(k) + "\nobjekti, on: "
-                + Math.round(tõenäosus * 1000.0) / 1000.0 + "." + "\n");
+                + Math.round(tõenäosus * 1000.0) / 1000.0 + "." + "\n";
     }
 }

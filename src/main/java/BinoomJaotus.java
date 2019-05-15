@@ -22,23 +22,23 @@ public class BinoomJaotus implements Arvutatav {
 
     //Väljastame kasutajale näite tema sisestuse põhjal:
     @Override
-    public void näide() {
+    public String näide() {
         setP(Math.random());
         setN((int) Math.round(3 + Math.random() * 12));
         double keskväärtus = n * p;
         double dispersioon = (n * p) * (1 - p);
         double standardhälve = Math.sqrt(dispersioon);
 
-        System.out.println("Näide:\nKui juhuslik suurus X on binoomjaotusega parameetritega p=" +
+        return "Näide:\nKui juhuslik suurus X on binoomjaotusega parameetritega p=" +
                 Math.round(p * 100.0)/100.0 + " ja n=" + n + ", siis on keskväärtus "
                 + Math.round(keskväärtus * 100.0) / 100.0 +
                 ", dispersioon " + Math.round(dispersioon * 100.0) / 100.0 + " ja standardhälve "
-                + Math.round(standardhälve* 100.0) / 100.0 + ".\n");
+                + Math.round(standardhälve* 100.0) / 100.0 + ".\n";
     }
 
     //Küsime kasutajalt vajalikud andmed ja väljastame soovitud tulemuse:
     @Override
-    public void arvuta() {
+    public String arvuta() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Sisesta p (vaadeldava sündmuse toimumise tõenäosus, mis on igal katsel sama)");
         setP(scan.nextDouble());
@@ -49,9 +49,9 @@ public class BinoomJaotus implements Arvutatav {
         double dispersioon = (n * p) * (1 - p);
         double standardhälve = Math.sqrt(dispersioon);
 
-        System.out.println("Binoomjaotuse kohaselt on keskväärtus " + Math.round(keskväärtus * 100.0) / 100.0
+        return "Binoomjaotuse kohaselt on keskväärtus " + Math.round(keskväärtus * 100.0) / 100.0
                 + ", dispersioon " + Math.round(dispersioon * 100.0) / 100.0 + " ja standardhälve " +
-                Math.round(standardhälve * 100.0) / 100.0 + ".\n");
+                Math.round(standardhälve * 100.0) / 100.0 + ".\n";
 
     }
 }

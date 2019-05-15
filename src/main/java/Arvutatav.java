@@ -1,6 +1,6 @@
 public interface Arvutatav {
 
-    void arvuta();
-    void näide();
+    String arvuta();
+    String näide();
 
 }

@@ -25,7 +25,7 @@ public class Multinoom implements Arvutatav {
 
     //Väljastame kasutajale näite tema sisestuse põhjal:
     @Override
-    public void näide() {
+    public String näide() {
         setM((int) Math.round(2 + Math.random() * 3));
         double[] tõenäosused = new double[m];
         int[] k = new int[m];
@@ -55,23 +55,33 @@ public class Multinoom implements Arvutatav {
         for (int i = 0; i < m; i++) {
             tõenäosus *= Math.pow(tõenäosused[i], k[i]);
         }
-        System.out.print("Näide:\nTõenäosus, et " + n + " sõltumatus katses sündmused C(1), C(2)");
+        StringBuilder väljund = new StringBuilder("Näide:\nTõenäosus, et ");
+        väljund.append(n);
+        väljund.append(" sõltumatus katses sündmused C(1), C(2)");
         if (m == 3){
-            System.out.print(", C(3)");
+            väljund.append(", C(3)");
         }
         if (m > 3){
-            System.out.print(", ..., C(" + m + ")");
+            väljund.append(", ..., C(");
+            väljund.append(m);
+            väljund.append(")");
         }
-        System.out.print(", mille tõenäosused on vastavalt [" + (Math.round(tõenäosused[0] * 1000.0) / 1000.0));
+        väljund.append(", mille tõenäosused on vastavalt [");
+        väljund.append(Math.round(tõenäosused[0] * 1000.0) / 1000.0);
         for (int i = 1; i < m; i++) {
-            System.out.print(", " + Math.round(tõenäosused[i] * 1000.0) / 1000.0);
+            väljund.append(", ");
+            väljund.append(Math.round(tõenäosused[i] * 1000.0) / 1000.0);
         }
-        System.out.println("]\ntoimuvad vastavalt " + Arrays.toString(k) + " korda, on: " + (Math.round(tõenäosus * 100000.0) / 100000.0) + ".\n");
+        väljund.append("]\ntoimuvad vastavalt ");
+        väljund.append(Arrays.toString(k));
+        väljund.append(" korda, on: ");
+        väljund.append(Math.round(tõenäosus * 100000.0) / 100000.0);
+        return väljund.toString();
     }
 
     //Küsime kasutajalt vajalikud andmed ja väljastame soovitud tulemuse:
     @Override
-    public void arvuta() {
+    public String arvuta() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Sisesta m (katsel toimuvate võimalike sündmuste koguarv)");
         setM(scan.nextInt());
@@ -105,17 +115,28 @@ public class Multinoom implements Arvutatav {
         for (int i = 0; i < m; i++) {
             tõenäosus *= Math.pow(tõenäosused[i], k[i]);
         }
-        System.out.print("Näide:\nTõenäosus, et " + n + " sõltumatus katses sündmused C(1), C(2)");
+
+        StringBuilder väljund = new StringBuilder("Tõenäosus, et ");
+        väljund.append(n);
+        väljund.append(" sõltumatus katses sündmused C(1), C(2)");
         if (m == 3){
-            System.out.print(", C(3)");
+            väljund.append(", C(3)");
         }
         if (m > 3){
-            System.out.print(", ..., C(" + m + ")");
+            väljund.append(", ..., C(");
+            väljund.append(m);
+            väljund.append(")");
         }
-        System.out.print(", mille tõenäosused on vastavalt [" + (Math.round(tõenäosused[0] * 1000.0) / 1000.0));
+        väljund.append(", mille tõenäosused on vastavalt [");
+        väljund.append(Math.round(tõenäosused[0] * 1000.0) / 1000.0);
         for (int i = 1; i < m; i++) {
-            System.out.print(", " + Math.round(tõenäosused[i] * 1000.0) / 1000.0);
+            väljund.append(", ");
+            väljund.append(Math.round(tõenäosused[i] * 1000.0) / 1000.0);
         }
-        System.out.println("]\ntoimuvad vastavalt " + Arrays.toString(k) + " korda, on: " + (Math.round(tõenäosus * 100000.0) / 100000.0) + ".\n");
+        väljund.append("]\ntoimuvad vastavalt ");
+        väljund.append(Arrays.toString(k));
+        väljund.append(" korda, on: ");
+        väljund.append(Math.round(tõenäosus * 100000.0) / 100000.0);
+        return väljund.toString();
     }
 }
