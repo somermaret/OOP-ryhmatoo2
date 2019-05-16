@@ -9,7 +9,7 @@ public class PoissoniJaotus {
         double standardhälve = Math.sqrt(dispersioon);
 
         return "Poissoni jaotuse kohaselt on keskväärtus " + keskväärtus
-                + ", dispersioon " + dispersioon + " ja standardhälve "
-                + Math.round(standardhälve * 100.0) / 100.0 + ". \n";
+                + ",\ndispersioon " + dispersioon + " ja standardhälve "
+                + Math.round(standardhälve * 100.0) / 100.0 + ".";
     }
 }
