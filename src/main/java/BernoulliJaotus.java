@@ -1,41 +1,8 @@
 import java.util.Scanner;
 
-public class BernoulliJaotus implements Arvutatav {
+public class BernoulliJaotus {
 
-    private double p;
-
-    //Setter:
-    public void setP(double p) {
-
-        this.p = p;
-    }
-
-    //Parameetriteta konstruktor:
-    public BernoulliJaotus() {
-
-        this.p = 0.0;
-    }
-
-    //Väljastame kasutajale näite tema sisestuse põhjal:
-    @Override
-    public String näide() {
-        setP(Math.random());
-        double keskväärtus = p;
-        double dispersioon = p * (1 - p);
-        double standardhälve = Math.sqrt(dispersioon);
-
-        return "Näide:\nKui juhuslik suurus X on Bernoulli jaotusega parameetriga p=" +
-                Math.round(p * 100.0) / 100.0 + ", siis on keskväärtus " +
-                Math.round(keskväärtus * 100.0) / 100.0 + ", dispersioon " + Math.round(dispersioon * 100.0) / 100.0 +
-                " ja standardhälve " + Math.round(standardhälve * 100.0) / 100.0 + ".\n";
-    }
-
-    //Küsime kasutajalt vajalikud andmed ja väljastame soovitud tulemuse:
-    @Override
-    public String arvuta() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Sisesta p (vaadeldava sündmuse toimumise tõenäosus, mis on igal katsel sama)");
-        setP(scan.nextDouble());
+    public static String arvuta(double p) {
 
         double keskväärtus = p;
         double dispersioon = p * (1 - p);
