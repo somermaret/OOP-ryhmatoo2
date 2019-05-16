@@ -1,6 +1,8 @@
-import java.util.Scanner;
-
 public class BernoulliJaotus {
+
+    public static boolean kontrolli(double p) {
+        return (p <= 1 && p >= 0);
+    }
 
     public static String arvuta(double p) {
 
@@ -8,8 +10,8 @@ public class BernoulliJaotus {
         double dispersioon = p * (1 - p);
         double standardhälve = Math.sqrt(dispersioon);
 
-        return "Bernoulli jaotuse kohaselt on keskväärtus " + Math.round(keskväärtus * 100.0) / 100.0
-                + ", dispersioon " + Math.round(dispersioon * 100.0) / 100.0 + " ja standardhälve "
-                + Math.round(standardhälve * 100.0) / 100.0 + ".\n";
+        return "Parameetriga p=" + Math.round(p * 100.0) / 100.0 + " bernoulli jaotusega\ndiskreetse juhusliku suuruse" +
+                " keskväärtus\non " + Math.round(keskväärtus * 100.0) / 100.0 + ", dispersioon " +
+                Math.round(dispersioon * 100.0) / 100.0 + " ja standardhälve " + Math.round(standardhälve * 100.0) / 100.0 + ".";
     }
 }

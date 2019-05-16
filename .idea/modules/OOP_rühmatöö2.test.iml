@@ -15,5 +15,4 @@
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-base:win:11.0.2" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-base:11.0.2" level="project" />
   </component>
-  <component name="TestModuleProperties" production-module="OOP_rühmatöö2.main" />
 </module>

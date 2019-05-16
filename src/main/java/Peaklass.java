@@ -1,12 +1,16 @@
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -14,6 +18,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Peaklass extends Application {
@@ -24,8 +30,7 @@ public class Peaklass extends Application {
         //////////////////////////////////////////////////////////////////////////////////////
 
         StackPane juur = new StackPane();
-
-        Scene stseen = new Scene(juur, 1460, 580);
+        Scene stseen = new Scene(juur, 1000, 580);
 
         //////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +52,11 @@ public class Peaklass extends Application {
 
         //Animatsioon (fade in) tiitlile
         FadeTransition ft = new FadeTransition(Duration.millis(3000), tekst);
-        ft.setFromValue(0.0); ft.setToValue(1.0); ft.setCycleCount(1); ft.setAutoReverse(true); ft.play();
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.setCycleCount(1);
+        ft.setAutoReverse(true);
+        ft.play();
 
         juur.getChildren().add(tekst);
 
@@ -69,37 +78,31 @@ public class Peaklass extends Application {
 
         GridPane grid = new GridPane();
 
-        grid.setAlignment(Pos.TOP_LEFT); grid.setMinSize(400, 200);
-        grid.setPadding(new Insets(180, 10, 10, 62));
-        grid.setVgap(5);  grid.setHgap(20);
+        grid.setAlignment(Pos.TOP_CENTER);
+        grid.setMinSize(400, 200);
+        grid.setPadding(new Insets(180, 50, 10, 50));
+        grid.setVgap(5);
+        grid.setHgap(20);
 
         Button bernoulli = new Button("Bernoulli valem");
         bernoulli.setPrefWidth(170);
         grid.add(bernoulli, 0, 0);
 
-        Button multinoom = new Button("Multinoom");
-        multinoom.setPrefWidth(170);
-        grid.add(multinoom, 1, 0);
-
-        Button hyper = new Button("Hüpergeomeetriline");
-        hyper.setPrefWidth(170);
-        grid.add(hyper, 2, 0);
-
         Button bernoulliJaotus = new Button("Bernoulli jaotus");
         bernoulliJaotus.setPrefWidth(170);
-        grid.add(bernoulliJaotus, 3, 0);
+        grid.add(bernoulliJaotus, 1, 0);
 
         Button binoom = new Button("Binoomjaotus");
         binoom.setPrefWidth(170);
-        grid.add(binoom, 4, 0);
+        grid.add(binoom, 2, 0);
 
         Button geo = new Button("Geomeetriline jaotus");
         geo.setPrefWidth(170);
-        grid.add(geo, 5, 0);
+        grid.add(geo, 3, 0);
 
         Button poisson = new Button("Poissoni jaotus");
         poisson.setPrefWidth(170);
-        grid.add(poisson, 6, 0);
+        grid.add(poisson, 4, 0);
 
         juur.getChildren().add(grid);
 
@@ -108,7 +111,7 @@ public class Peaklass extends Application {
         // #4 Väljad kasutajaga suhtlemiseks
 
         ///////////////////////////////////
-            // Bernoulli valem //
+        // Bernoulli valem //
 
         //p (vaadeldava sündmuse toimumise tõenäosus, mis on igal katsel sama)
         final TextField pBernValem = new TextField();
@@ -129,88 +132,46 @@ public class Peaklass extends Application {
         GridPane.setConstraints(kBernValem, 0, 1);
 
         ///////////////////////////////////
-            // Multinoom //
-
-        //m (katsel toimuvate võimalike sündmuste koguarv)
-        final TextField mMultinoom = new TextField();
-        mMultinoom.setPromptText("Sisestage m");
-        mMultinoom.setPrefWidth(10);
-        GridPane.setConstraints(mMultinoom, 1, 1);
-
-        //k ehk mitu korda vastav sündmus toimuma peab
-        final TextField kMultinoom = new TextField();
-        kMultinoom.setPromptText("Sisestage k");
-        kMultinoom.setPrefWidth(10);
-        GridPane.setConstraints(kMultinoom, 1, 1);
-
-        //p ehk vastava sündmuse toimumise tõenäosus
-        final TextField pMultinoom = new TextField();
-        pMultinoom.setPromptText("Sisestage p");
-        pMultinoom.setPrefWidth(10);
-        GridPane.setConstraints(pMultinoom, 1, 1);
-
-        ///////////////////////////////////
-            // Hüpergeomeetriline //
-
-        //m (klasside koguarv)
-        final TextField mHyper = new TextField();
-        mHyper.setPromptText("Sisestage m");
-        mHyper.setPrefWidth(10);
-        GridPane.setConstraints(mHyper, 2, 1);
-
-        //N ehk mitu objekti vastavasse klassi kuulub
-        final TextField nHyper = new TextField();
-        nHyper.setPromptText("Sisestage N");
-        nHyper.setPrefWidth(10);
-        GridPane.setConstraints(nHyper, 2, 1);
-
-        //k ehk mitu objekti sellest klassist valitakse
-        final TextField kHyper = new TextField();
-        kHyper.setPromptText("Sisestage k");
-        kHyper.setPrefWidth(10);
-        GridPane.setConstraints(kHyper, 2, 1);
-
-        ///////////////////////////////////
-            // Bernoulli jaotus //
+        // Bernoulli jaotus //
 
         //p (vaadeldava sündmuse toimumise tõenäosus, mis on igal katsel sama)
         final TextField pBernJ = new TextField();
         pBernJ.setPromptText("Sisestage p");
         pBernJ.setPrefWidth(10);
-        GridPane.setConstraints(pBernJ, 3, 1);
+        GridPane.setConstraints(pBernJ, 1, 1);
 
         ///////////////////////////////////
-            // Binoomjaotus //
+        // Binoomjaotus //
 
         //p (vaadeldava sündmuse toimumise tõenäosus, mis on igal katsel sama)
         final TextField pBin = new TextField();
         pBin.setPromptText("Sisestage p");
         pBin.setPrefWidth(10);
-        GridPane.setConstraints(pBin, 4, 1);
+        GridPane.setConstraints(pBin, 2, 1);
 
         //n (kõikide katsete koguarv)
         final TextField nBin = new TextField();
         nBin.setPromptText("Sisestage n");
         nBin.setPrefWidth(10);
-        GridPane.setConstraints(nBin, 4, 1);
+        GridPane.setConstraints(nBin, 2, 1);
 
         ///////////////////////////////////
-            // Geomeetriline jaotus //
+        // Geomeetriline jaotus //
 
         //p (vaadeldava sündmuse toimumise tõenäosus, mis on igal katsel sama)
         final TextField pGeo = new TextField();
         pGeo.setPromptText("Sisestage p");
         pGeo.setPrefWidth(10);
-        GridPane.setConstraints(pGeo, 5, 1);
+        GridPane.setConstraints(pGeo, 3, 1);
 
         ///////////////////////////////////
-            // Poissoni jaotus //
+        // Poissoni jaotus //
 
         //lambda (Poissoni jaotuse parameeter)
         final TextField L = new TextField();
         L.setPromptText("Sisestage lambda");
         L.setPrefWidth(10);
-        GridPane.setConstraints(L, 6, 1);
+        GridPane.setConstraints(L, 4, 1);
 
         //Nupud
         String next = "Edasi";
@@ -224,57 +185,95 @@ public class Peaklass extends Application {
         edasi0.setId("edasi");
         GridPane.setConstraints(edasi0, 0, 2);
 
-        Button edasi2 = new Button(next);
-        edasi2.setId("edasi");
-        GridPane.setConstraints(edasi2, 1, 2);
-
-        Button edasi00 = new Button(next);
-        edasi00.setId("edasi");
-        GridPane.setConstraints(edasi00, 1, 2);
-
-        Button edasi3 = new Button(next);
-        edasi3.setId("edasi");
-        GridPane.setConstraints(edasi3, 2, 2);
-
-        Button edasi000 = new Button(next);
-        edasi000.setId("edasi");
-        GridPane.setConstraints(edasi000, 2, 2);
-
         Button edasi4 = new Button(next);
         edasi4.setId("edasi");
-        GridPane.setConstraints(edasi4, 4, 2);
+        GridPane.setConstraints(edasi4, 2, 2);
 
         Button arvuta = new Button(compute);
         arvuta.setId("arvuta");
         GridPane.setConstraints(arvuta, 0, 2);
 
-        Button arvuta2 = new Button(compute);
-        arvuta2.setId("arvuta");
-        GridPane.setConstraints(arvuta2, 1, 2);
-
-        Button arvuta3 = new Button(compute);
-        arvuta3.setId("arvuta");
-        GridPane.setConstraints(arvuta3, 2, 2);
-
         Button arvuta4 = new Button(compute);
         arvuta4.setId("arvuta");
-        GridPane.setConstraints(arvuta4, 3, 2);
+        GridPane.setConstraints(arvuta4, 1, 2);
 
         Button arvuta5 = new Button(compute);
         arvuta5.setId("arvuta");
-        GridPane.setConstraints(arvuta5, 4, 2);
+        GridPane.setConstraints(arvuta5, 2, 2);
 
         Button arvuta6 = new Button(compute);
         arvuta6.setId("arvuta");
-        GridPane.setConstraints(arvuta6, 5, 2);
+        GridPane.setConstraints(arvuta6, 3, 2);
 
         Button arvuta7 = new Button(compute);
         arvuta7.setId("arvuta");
-        GridPane.setConstraints(arvuta7, 6, 2);
+        GridPane.setConstraints(arvuta7, 4, 2);
 
         //////////////////////////////////////////////////////////////////////////////////////
 
-        // #5 Dünaamilised nupud ja väljad hakkavad sisestatud infot töötlema
+        // #5 Veatöötlus
+
+        //////////////////////////////////////////////////////////////////////////////////////
+
+        // luuakse teine lava
+        Stage viga = new Stage();
+        // tekstivälja ja ok-nupu loomine
+        Text sõnum = new Text("Sisend ei olnud korrektne!");
+        Button okButton = new Button("OK");
+
+        // sündmuse lisamine nupule OK
+        okButton.setOnAction(new EventHandler<>() {
+            public void handle(ActionEvent event) {
+                viga.hide();
+                pBernValem.clear();
+                kBernValem.clear();
+                nBernValem.clear();
+                pBernJ.clear();
+                nBin.clear();
+                pBin.clear();
+                pGeo.clear();
+                L.clear();
+                grid.getChildren().remove(kBernValem);
+                grid.getChildren().remove(arvuta);
+                grid.getChildren().remove(nBernValem);
+                grid.getChildren().remove(edasi0);
+                grid.getChildren().remove(pBernValem);
+                grid.getChildren().remove(edasi);
+                grid.getChildren().remove(pBernJ);
+                grid.getChildren().remove(arvuta4);
+                grid.getChildren().remove(nBin);
+                grid.getChildren().remove(arvuta5);
+                grid.getChildren().remove(pBin);
+                grid.getChildren().remove(edasi4);
+                grid.getChildren().remove(pGeo);
+                grid.getChildren().remove(arvuta6);
+                grid.getChildren().remove(L);
+                grid.getChildren().remove(arvuta7);
+                List<Node> eemaldatavad = new ArrayList<>();
+                for (Node child : juur.getChildren()) {
+                    if (child.getClass() == Text.class && !child.getId().equals("tiitel") && !child.getId().equals("valik"))
+                        eemaldatavad.add(child);
+                }
+                for (Node child : eemaldatavad) {
+                    juur.getChildren().remove(child);
+                }
+            }
+        });
+
+        // teksti ja nupu grupeerimine
+        FlowPane pane = new FlowPane(10, 10);
+        pane.setOrientation(Orientation.VERTICAL);
+        pane.setAlignment(Pos.CENTER);
+        pane.getChildren().addAll(sõnum, okButton);
+
+        //stseeni loomine
+        Scene stseen2 = new Scene(pane, 300, 150);
+        viga.setTitle("Viga");
+        viga.setScene(stseen2);
+
+        //////////////////////////////////////////////////////////////////////////////////////
+
+        // #6 Dünaamilised nupud ja väljad hakkavad sisestatud infot töötlema
 
         //////////////////////////////////////////////////////////////////////////////////////
 
@@ -283,27 +282,51 @@ public class Peaklass extends Application {
         StackPane.setMargin(tühjenda, new Insets(0, 0, 40, 0));
         tühjenda.setId("tühjenda");
 
+        tühjenda.setOnAction(event2 -> {
+            pBernValem.clear();
+            kBernValem.clear();
+            nBernValem.clear();
+            pBernJ.clear();
+            nBin.clear();
+            pBin.clear();
+            pGeo.clear();
+            L.clear();
+            grid.getChildren().remove(kBernValem);
+            grid.getChildren().remove(arvuta);
+            grid.getChildren().remove(nBernValem);
+            grid.getChildren().remove(edasi0);
+            grid.getChildren().remove(pBernValem);
+            grid.getChildren().remove(edasi);
+            grid.getChildren().remove(pBernJ);
+            grid.getChildren().remove(arvuta4);
+            grid.getChildren().remove(nBin);
+            grid.getChildren().remove(arvuta5);
+            grid.getChildren().remove(pBin);
+            grid.getChildren().remove(edasi4);
+            grid.getChildren().remove(pGeo);
+            grid.getChildren().remove(arvuta6);
+            grid.getChildren().remove(L);
+            grid.getChildren().remove(arvuta7);
+            List<Node> eemaldatavad = new ArrayList<>();
+            for (Node child : juur.getChildren()) {
+                if (child.getClass() == Text.class && !child.getId().equals("tiitel") && !child.getId().equals("valik"))
+                    eemaldatavad.add(child);
+            }
+            for (Node child : eemaldatavad) {
+                juur.getChildren().remove(child);
+            }
+            juur.getChildren().remove(tühjenda);
+        });
+
         //Bernoulli valem
         EventHandler<javafx.scene.input.MouseEvent> bernoulliValHandler1 =
                 (MouseEvent e) -> {
-                    grid.getChildren().remove(mMultinoom);
-                    grid.getChildren().remove(edasi2);
-                    grid.getChildren().remove(kMultinoom);
-                    grid.getChildren().remove(edasi00);
-                    grid.getChildren().remove(edasi000);
-                    grid.getChildren().remove(edasi3);
                     grid.getChildren().remove(edasi4);
-                    grid.getChildren().remove(pMultinoom);
-                    grid.getChildren().remove(arvuta2);
                     grid.getChildren().remove(pBernJ);
-                    grid.getChildren().remove(mHyper);
-                    grid.getChildren().remove(nHyper);
-                    grid.getChildren().remove(kHyper);
                     grid.getChildren().remove(pBin);
                     grid.getChildren().remove(nBin);
                     grid.getChildren().remove(pGeo);
                     grid.getChildren().remove(L);
-                    grid.getChildren().remove(arvuta3);
                     grid.getChildren().remove(arvuta4);
                     grid.getChildren().remove(arvuta5);
                     grid.getChildren().remove(arvuta6);
@@ -329,164 +352,24 @@ public class Peaklass extends Application {
 
         arvuta.setOnAction(event -> {
 
-            Text berniVastus = new Text(BernoulliValem.arvuta(Double.parseDouble(pBernValem.getText()),
-                    Integer.parseInt(nBernValem.getText()), Integer.parseInt(kBernValem.getText())));
+            try {
+                double p = Double.parseDouble(pBernValem.getText());
+                int n = Integer.parseInt(nBernValem.getText());
+                int k = Integer.parseInt(kBernValem.getText());
 
-            StackPane.setAlignment(berniVastus, Pos.BOTTOM_CENTER);
-            StackPane.setMargin(berniVastus, new Insets(0, 0, 140, 0));
-            berniVastus.setId("vastus");
-            juur.getChildren().add(berniVastus);
-            juur.getChildren().add(tühjenda);
+                if (!BernoulliValem.kontrolli(p, n, k))
+                    throw new NumberFormatException();
 
-            tühjenda.setOnAction(event2 -> {
-                juur.getChildren().remove(tühjenda);
-                juur.getChildren().remove(berniVastus);
-                grid.getChildren().remove(kBernValem);
-                grid.getChildren().remove(arvuta);
-                grid.getChildren().remove(nBernValem);
-                grid.getChildren().remove(edasi0);
-                grid.getChildren().remove(pBernValem);
-                grid.getChildren().remove(edasi);
-            });
-        });
+                Text berniVastus = new Text(BernoulliValem.arvuta(p, n, k));
+                StackPane.setAlignment(berniVastus, Pos.BOTTOM_CENTER);
+                StackPane.setMargin(berniVastus, new Insets(0, 0, 140, 0));
+                berniVastus.setId("vastus");
+                juur.getChildren().add(berniVastus);
+                juur.getChildren().add(tühjenda);
+            } catch (NumberFormatException e) {
+                viga.show();
+            }
 
-        //////////////////////////////////////////////////////////////////////////////////////
-
-        //Multinoom
-        EventHandler<javafx.scene.input.MouseEvent> multinoomHandler =
-                (MouseEvent e) -> {
-                    grid.getChildren().remove(pBernValem);
-                    grid.getChildren().remove(edasi);
-                    grid.getChildren().remove(nBernValem);
-                    grid.getChildren().remove(edasi0);
-                    grid.getChildren().remove(edasi000);
-                    grid.getChildren().remove(edasi3);
-                    grid.getChildren().remove(edasi4);
-                    grid.getChildren().remove(kBernValem);
-                    grid.getChildren().remove(arvuta);
-                    grid.getChildren().remove(pBernJ);
-                    grid.getChildren().remove(mHyper);
-                    grid.getChildren().remove(nHyper);
-                    grid.getChildren().remove(kHyper);
-                    grid.getChildren().remove(pBin);
-                    grid.getChildren().remove(nBin);
-                    grid.getChildren().remove(pGeo);
-                    grid.getChildren().remove(L);
-                    grid.getChildren().remove(arvuta3);
-                    grid.getChildren().remove(arvuta4);
-                    grid.getChildren().remove(arvuta5);
-                    grid.getChildren().remove(arvuta6);
-                    grid.getChildren().remove(arvuta7);
-
-                    grid.getChildren().add(mMultinoom);
-                    grid.getChildren().add(edasi2);
-                };
-        EventHandler<javafx.scene.input.MouseEvent> multinoomHandler2 =
-                (MouseEvent e) -> {
-                    grid.getChildren().add(kMultinoom);
-                    grid.getChildren().add(edasi00);
-                };
-        EventHandler<javafx.scene.input.MouseEvent> multinoomHandler3 =
-                (MouseEvent e) -> {
-                    grid.getChildren().add(pMultinoom);
-                    grid.getChildren().add(arvuta2);
-                };
-
-        multinoom.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, multinoomHandler);
-        edasi2.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, multinoomHandler2);
-        edasi00.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, multinoomHandler3);
-
-        arvuta2.setOnAction(event -> {
-
-            Text multinoomVastus = new Text(Multinoom.arvuta(Integer.parseInt(mMultinoom.getText()),
-                    Integer.parseInt(kMultinoom.getText()), Double.parseDouble(pMultinoom.getText())));
-
-            StackPane.setAlignment(multinoomVastus, Pos.BOTTOM_CENTER);
-            StackPane.setMargin(multinoomVastus, new Insets(0, 0, 140, 0));
-            multinoomVastus.setId("vastus");
-            juur.getChildren().add(multinoomVastus);
-            juur.getChildren().add(tühjenda);
-
-            tühjenda.setOnAction(event2 -> {
-                juur.getChildren().remove(tühjenda);
-                juur.getChildren().remove(multinoomVastus);
-                grid.getChildren().remove(pMultinoom);
-                grid.getChildren().remove(arvuta2);
-                grid.getChildren().remove(kMultinoom);
-                grid.getChildren().remove(edasi00);
-                grid.getChildren().remove(mMultinoom);
-                grid.getChildren().remove(edasi2);
-            });
-        });
-
-        //////////////////////////////////////////////////////////////////////////////////////
-
-
-        //Hüpergeomeetriline
-        EventHandler<javafx.scene.input.MouseEvent> hyperHandler =
-                e -> {
-                    grid.getChildren().remove(pBernValem);
-                    grid.getChildren().remove(edasi);
-                    grid.getChildren().remove(nBernValem);
-                    grid.getChildren().remove(edasi0);
-                    grid.getChildren().remove(kBernValem);
-                    grid.getChildren().remove(arvuta);
-                    grid.getChildren().remove(mMultinoom);
-                    grid.getChildren().remove(edasi2);
-                    grid.getChildren().remove(edasi4);
-                    grid.getChildren().remove(kMultinoom);
-                    grid.getChildren().remove(edasi00);
-                    grid.getChildren().remove(pMultinoom);
-                    grid.getChildren().remove(arvuta2);
-                    grid.getChildren().remove(pBernJ);
-                    grid.getChildren().remove(pBin);
-                    grid.getChildren().remove(nBin);
-                    grid.getChildren().remove(pGeo);
-                    grid.getChildren().remove(L);
-                    grid.getChildren().remove(arvuta4);
-                    grid.getChildren().remove(arvuta5);
-                    grid.getChildren().remove(arvuta6);
-                    grid.getChildren().remove(arvuta7);
-
-                    grid.getChildren().add(mHyper);
-                    grid.getChildren().add(edasi3);
-                };
-        EventHandler<javafx.scene.input.MouseEvent> hyperHandler2 =
-                (MouseEvent e) -> {
-                    grid.getChildren().add(nHyper);
-                    grid.getChildren().add(edasi000);
-                };
-        EventHandler<javafx.scene.input.MouseEvent> hyperHandler3 =
-                (MouseEvent e) -> {
-                    grid.getChildren().add(kHyper);
-                    grid.getChildren().add(arvuta3);
-                };
-
-        hyper.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, hyperHandler);
-        edasi3.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, hyperHandler2);
-        edasi000.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, hyperHandler3);
-
-        arvuta3.setOnAction(event -> {
-
-            Text hyperVastus = new Text(Hüpergeomeetriline.arvuta(Integer.parseInt(mHyper.getText()),
-                    Integer.parseInt(nHyper.getText()), Integer.parseInt(kHyper.getText())));
-
-            StackPane.setAlignment(hyperVastus, Pos.BOTTOM_CENTER);
-            StackPane.setMargin(hyperVastus, new Insets(0, 0, 90, 0));
-            hyperVastus.setId("vastus");
-            juur.getChildren().add(hyperVastus);
-            juur.getChildren().add(tühjenda);
-
-            tühjenda.setOnAction(event2 -> {
-                juur.getChildren().remove(tühjenda);
-                juur.getChildren().remove(hyperVastus);
-                grid.getChildren().remove(kHyper);
-                grid.getChildren().remove(arvuta3);
-                grid.getChildren().remove(nHyper);
-                grid.getChildren().remove(edasi000);
-                grid.getChildren().remove(mHyper);
-                grid.getChildren().remove(edasi3);
-            });
         });
 
         //////////////////////////////////////////////////////////////////////////////////////
@@ -500,23 +383,11 @@ public class Peaklass extends Application {
                     grid.getChildren().remove(edasi0);
                     grid.getChildren().remove(kBernValem);
                     grid.getChildren().remove(arvuta);
-                    grid.getChildren().remove(mMultinoom);
-                    grid.getChildren().remove(edasi2);
-                    grid.getChildren().remove(edasi3);
                     grid.getChildren().remove(edasi4);
-                    grid.getChildren().remove(kMultinoom);
-                    grid.getChildren().remove(edasi00);
-                    grid.getChildren().remove(edasi000);
-                    grid.getChildren().remove(pMultinoom);
-                    grid.getChildren().remove(arvuta2);
-                    grid.getChildren().remove(mHyper);
-                    grid.getChildren().remove(nHyper);
-                    grid.getChildren().remove(kHyper);
                     grid.getChildren().remove(pBin);
                     grid.getChildren().remove(nBin);
                     grid.getChildren().remove(pGeo);
                     grid.getChildren().remove(L);
-                    grid.getChildren().remove(arvuta3);
                     grid.getChildren().remove(arvuta5);
                     grid.getChildren().remove(arvuta6);
                     grid.getChildren().remove(arvuta7);
@@ -529,20 +400,24 @@ public class Peaklass extends Application {
 
         arvuta4.setOnAction(event -> {
 
-            Text bernJVastus = new Text(BernoulliJaotus.arvuta(Double.parseDouble(pBernJ.getText())));
+            try {
+                double p = Double.parseDouble(pBernJ.getText());
 
-            StackPane.setAlignment(bernJVastus, Pos.TOP_RIGHT);
-            StackPane.setMargin(bernJVastus, new Insets(360, 180, 0, 0));
-            bernJVastus.setId("vastus");
-            juur.getChildren().add(bernJVastus);
-            juur.getChildren().add(tühjenda);
+                if (!BernoulliJaotus.kontrolli(p))
+                    throw new NumberFormatException();
 
-            tühjenda.setOnAction(event2 -> {
-                juur.getChildren().remove(tühjenda);
-                juur.getChildren().remove(bernJVastus);
-                grid.getChildren().remove(pBernJ);
-                grid.getChildren().remove(arvuta4);
-            });
+                Text bernJVastus = new Text(BernoulliJaotus.arvuta(p));
+
+                StackPane.setAlignment(bernJVastus, Pos.BOTTOM_CENTER);
+                StackPane.setMargin(bernJVastus, new Insets(0, 0, 140, 0));
+                bernJVastus.setId("vastus");
+                juur.getChildren().add(bernJVastus);
+                juur.getChildren().add(tühjenda);
+            }
+            catch (NumberFormatException e) {
+                viga.show();
+            }
+
         });
 
         //////////////////////////////////////////////////////////////////////////////////////
@@ -556,22 +431,9 @@ public class Peaklass extends Application {
                     grid.getChildren().remove(edasi0);
                     grid.getChildren().remove(kBernValem);
                     grid.getChildren().remove(arvuta);
-                    grid.getChildren().remove(mMultinoom);
-                    grid.getChildren().remove(edasi2);
-                    grid.getChildren().remove(edasi3);
-                    grid.getChildren().remove(kMultinoom);
-                    grid.getChildren().remove(edasi00);
-                    grid.getChildren().remove(edasi000);
-                    grid.getChildren().remove(pMultinoom);
-                    grid.getChildren().remove(arvuta2);
                     grid.getChildren().remove(pBernJ);
-                    grid.getChildren().remove(mHyper);
-                    grid.getChildren().remove(nHyper);
-                    grid.getChildren().remove(kHyper);
                     grid.getChildren().remove(pGeo);
                     grid.getChildren().remove(L);
-                    grid.getChildren().remove(arvuta2);
-                    grid.getChildren().remove(arvuta3);
                     grid.getChildren().remove(arvuta4);
                     grid.getChildren().remove(arvuta6);
                     grid.getChildren().remove(arvuta7);
@@ -590,23 +452,25 @@ public class Peaklass extends Application {
 
         arvuta5.setOnAction(event -> {
 
-            Text binVastus = new Text(BinoomJaotus.arvuta(Double.parseDouble(pBin.getText()),
-                    Integer.parseInt(nBin.getText())));
+            try {
+                double p = Double.parseDouble(pBin.getText());
+                int n = Integer.parseInt(nBin.getText());
 
-            StackPane.setAlignment(binVastus, Pos.TOP_RIGHT);
-            StackPane.setMargin(binVastus, new Insets(360, 180, 0, 0));
-            binVastus.setId("vastus");
-            juur.getChildren().add(binVastus);
-            juur.getChildren().add(tühjenda);
+                if (!BinoomJaotus.kontrolli(p))
+                    throw new NumberFormatException();
 
-            tühjenda.setOnAction(event2 -> {
-                juur.getChildren().remove(tühjenda);
-                juur.getChildren().remove(binVastus);
-                grid.getChildren().remove(nBin);
-                grid.getChildren().remove(arvuta5);
-                grid.getChildren().remove(pBin);
-                grid.getChildren().remove(edasi4);
-            });
+                Text binVastus = new Text(BinoomJaotus.arvuta(p, n));
+
+                StackPane.setAlignment(binVastus, Pos.BOTTOM_CENTER);
+                StackPane.setMargin(binVastus, new Insets(0, 0, 140, 0));
+                binVastus.setId("vastus");
+                juur.getChildren().add(binVastus);
+                juur.getChildren().add(tühjenda);
+            }
+            catch (NumberFormatException e) {
+                viga.show();
+            }
+
         });
 
         //////////////////////////////////////////////////////////////////////////////////////
@@ -620,23 +484,11 @@ public class Peaklass extends Application {
                     grid.getChildren().remove(edasi0);
                     grid.getChildren().remove(kBernValem);
                     grid.getChildren().remove(arvuta);
-                    grid.getChildren().remove(mMultinoom);
-                    grid.getChildren().remove(edasi2);
-                    grid.getChildren().remove(edasi3);
                     grid.getChildren().remove(edasi4);
-                    grid.getChildren().remove(kMultinoom);
-                    grid.getChildren().remove(edasi00);
-                    grid.getChildren().remove(edasi000);
-                    grid.getChildren().remove(pMultinoom);
-                    grid.getChildren().remove(arvuta2);
                     grid.getChildren().remove(pBernJ);
-                    grid.getChildren().remove(mHyper);
-                    grid.getChildren().remove(nHyper);
-                    grid.getChildren().remove(kHyper);
                     grid.getChildren().remove(pBin);
                     grid.getChildren().remove(nBin);
                     grid.getChildren().remove(L);
-                    grid.getChildren().remove(arvuta3);
                     grid.getChildren().remove(arvuta4);
                     grid.getChildren().remove(arvuta5);
                     grid.getChildren().remove(arvuta6);
@@ -650,20 +502,24 @@ public class Peaklass extends Application {
 
         arvuta6.setOnAction(event -> {
 
-            Text geoVastus = new Text(GeomeetrilineJaotus.arvuta(Double.parseDouble(pGeo.getText())));
+            try {
+                double p = Double.parseDouble(pGeo.getText());
 
-            StackPane.setAlignment(geoVastus, Pos.TOP_RIGHT);
-            StackPane.setMargin(geoVastus, new Insets(360, 180, 0, 0));
-            geoVastus.setId("vastus");
-            juur.getChildren().add(geoVastus);
-            juur.getChildren().add(tühjenda);
+                if (!GeomeetrilineJaotus.kontrolli(p))
+                    throw new NumberFormatException();
 
-            tühjenda.setOnAction(event2 -> {
-                juur.getChildren().remove(tühjenda);
-                juur.getChildren().remove(geoVastus);
-                grid.getChildren().remove(pGeo);
-                grid.getChildren().remove(arvuta6);
-            });
+                Text geoVastus = new Text(GeomeetrilineJaotus.arvuta(p));
+
+                StackPane.setAlignment(geoVastus, Pos.BOTTOM_CENTER);
+                StackPane.setMargin(geoVastus, new Insets(0, 0, 140, 0));
+                geoVastus.setId("vastus");
+                juur.getChildren().add(geoVastus);
+                juur.getChildren().add(tühjenda);
+            }
+            catch (NumberFormatException e) {
+                viga.show();
+            }
+
         });
 
         //////////////////////////////////////////////////////////////////////////////////////
@@ -677,23 +533,11 @@ public class Peaklass extends Application {
             grid.getChildren().remove(edasi0);
             grid.getChildren().remove(kBernValem);
             grid.getChildren().remove(arvuta);
-            grid.getChildren().remove(mMultinoom);
-            grid.getChildren().remove(edasi2);
-            grid.getChildren().remove(edasi3);
             grid.getChildren().remove(edasi4);
-            grid.getChildren().remove(kMultinoom);
-            grid.getChildren().remove(edasi00);
-            grid.getChildren().remove(edasi000);
-            grid.getChildren().remove(pMultinoom);
-            grid.getChildren().remove(arvuta2);
             grid.getChildren().remove(pBernJ);
-            grid.getChildren().remove(mHyper);
-            grid.getChildren().remove(nHyper);
-            grid.getChildren().remove(kHyper);
             grid.getChildren().remove(pBin);
             grid.getChildren().remove(nBin);
             grid.getChildren().remove(pGeo);
-            grid.getChildren().remove(arvuta3);
             grid.getChildren().remove(arvuta4);
             grid.getChildren().remove(arvuta5);
             grid.getChildren().remove(arvuta6);
@@ -706,20 +550,19 @@ public class Peaklass extends Application {
 
         arvuta7.setOnAction(event -> {
 
-            Text poissoniVastus = new Text(PoissoniJaotus.arvuta(Double.parseDouble(L.getText())));
+            try {
+                Text poissoniVastus = new Text(PoissoniJaotus.arvuta(Double.parseDouble(L.getText())));
 
-            StackPane.setAlignment(poissoniVastus, Pos.TOP_RIGHT);
-            StackPane.setMargin(poissoniVastus, new Insets(360, 180, 0, 0));
-            poissoniVastus.setId("vastus");
-            juur.getChildren().add(poissoniVastus);
-            juur.getChildren().add(tühjenda);
+                StackPane.setAlignment(poissoniVastus, Pos.TOP_RIGHT);
+                StackPane.setMargin(poissoniVastus, new Insets(0, 0, 140, 0));
+                poissoniVastus.setId("vastus");
+                juur.getChildren().add(poissoniVastus);
+                juur.getChildren().add(tühjenda);
+            }
+            catch (NumberFormatException e) {
+                viga.show();
+            }
 
-            tühjenda.setOnAction(event2 -> {
-                juur.getChildren().remove(tühjenda);
-                juur.getChildren().remove(poissoniVastus);
-                grid.getChildren().remove(L);
-                grid.getChildren().remove(arvuta7);
-            });
         });
 
         //////////////////////////////////////////////////////////////////////////////////////
@@ -727,26 +570,8 @@ public class Peaklass extends Application {
         pealava.setTitle("Tõenäosusteooria kalkulaator");
         pealava.setScene(stseen);
         pealava.show();
-    }
 
-    /*
-    public boolean onDouble(TextField input) {
-        try {
-            Double.parseDouble(input.getText());
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
-
-    public boolean onInt(TextField input) {
-        try {
-            Integer.parseInt(input.getText());
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-     */
 
     public static void main(String[] args) {
         launch(args);
